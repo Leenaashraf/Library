@@ -43,7 +43,7 @@ class LibraryBorrowRecord(models.Model):
                 raise UserError("Member is not active")
             if record.state != 'borrowed':
                 raise UserError("Record is not in borrowed state")
-            record.book_id.state = 'borrowed'
+            record.book_id.state = 'not_available'
 
     def return_book(self):
         for record in self:
@@ -51,8 +51,6 @@ class LibraryBorrowRecord(models.Model):
                 raise UserError("Only borrowed or overdue books can be returned")
             record.state = 'returned'
             record.return_date = fields.Date.today()
-            if record.book_id.available_copies > 0:
-                record.book_id.state = 'available'
 
     def mark_overdue(self):
         for record in self:
