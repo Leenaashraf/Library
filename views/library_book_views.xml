@@ -29,6 +29,8 @@
                         <button name="mark_lost" type="object" string="Mark Lost" invisible="state in ('lost','damaged','borrowed')"/>
                         <button name="mark_damaged" type="object" string="Mark Damaged" invisible="state in ('lost','damaged','borrowed')"/>
                         <button name="restore_book" type="object" string="Restore" invisible="state == 'available'"/>
+                        <button name="toggle_wishlist" type="object" string="Add to Wishlist" invisible="is_wishlisted"/>
+                        <button name="toggle_wishlist" type="object" string="Remove from Wishlist" invisible="not is_wishlisted"/>
                         <field name="state" widget="statusbar" statusbar_visible="available,not_available,lost"/>
                     </header>
                     <h1>
