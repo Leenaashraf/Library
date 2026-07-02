@@ -1,0 +1,13 @@
+<odoo>
+    <menuitem id="library_menu_root" name="Library">
+        <menuitem id="library_first_level_menu" name="Library Operations">
+            <menuitem id="library_book_menu_action" action="library_book_action"/>
+            <menuitem id="library_member_menu_action" action="library_member_action"/>
+            <menuitem id="library_borrow_record_menu_action" action="library_borrow_record_action"/>
+        </menuitem>
+        <menuitem id="library_settings_first_level_menu" name="Settings">
+            <menuitem id="library_category_menu_action" action="library_category_action"/>
+            <menuitem id="library_book_tag_menu_action" action="library_book_tag_action"/>
+        </menuitem> 
+    </menuitem>
+</odoo>

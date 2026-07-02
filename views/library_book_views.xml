@@ -1,0 +1,84 @@
+<odoo>
+    <record id="library_book_action" model="ir.actions.act_window">
+        <field name="name">Books</field>
+        <field name="res_model">library.book</field>
+        <field name="view_mode">list,form,kanban</field>
+    </record>
+
+    <record id="library_book_view_list" model="ir.ui.view">
+        <field name="name">library.book.list</field>
+        <field name="model">library.book</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="author"/>
+                <field name="isbn"/>
+                <field name="available_copies"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="library_book_view_form" model="ir.ui.view">
+        <field name="name">library.book.form</field>
+        <field name="model">library.book</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <header>
+                        <button name="mark_lost" type="object" string="Mark Lost" invisible="state in ('lost','damaged','borrowed')"/>
+                        <button name="mark_damaged" type="object" string="Mark Damaged" invisible="state in ('lost','damaged','borrowed')"/>
+                        <button name="restore_book" type="object" string="Restore" invisible="state == 'available'"/>
+                        <field name="state" widget="statusbar" statusbar_visible="available,borrowed,lost"/>
+                    </header>
+                    <h1>
+                        <field name="name"/>
+                    </h1>
+                    <group>
+                        <field name="tag_ids" widget="many2many_tags"/>
+                        <field name="category_id"/>
+                        <field name="author"/>
+                        <field name="isbn"/>
+                        <field name="publication_year"/>
+                    </group>
+                    <notebook>
+                        <page string="Details">
+                            <group>
+                                <field name="total_copies"/>
+                                <field name="available_copies"/>
+                                <field name="description"/>
+                            </group>
+                        </page>
+                        <page string="Borrow Records">
+                            <field name="borrow_record_ids"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="library_book_view_kanban" model="ir.ui.view">
+        <field name="name">library.book.kanban</field>
+        <field name="model">library.book</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="category_id">
+                <field name="available_copies"/>
+                <field name="state"/>
+                <templates>
+                    <t t-name="card">
+                        <field name="name"/>
+                        <field name="author"/>
+                        <field name="tag_ids" widget="many2many_tags"/>
+                        <div>
+                            <span>Available: </span>
+                            <field name="available_copies"/>
+                            <span> / </span>
+                            <field name="total_copies"/>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+</odoo>
