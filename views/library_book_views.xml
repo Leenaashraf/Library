@@ -84,4 +84,10 @@
             </kanban>
         </field>
     </record>
+    <record id="library_book_wishlist_action" model="ir.actions.act_window">
+        <field name="name">My Wishlist</field>
+        <field name="res_model">library.book</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('wishlisted_by_ids', 'in', [uid])]</field>
+    </record>
 </odoo>
