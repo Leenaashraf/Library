@@ -2,6 +2,7 @@
     <menuitem id="library_menu_root" name="Library">
         <menuitem id="library_first_level_menu" name="Library Operations">
             <menuitem id="library_book_menu_action" action="library_book_action"/>
+            <menuitem id="library_book_wishlist_menu_action" name="My Wishlist" action="library_book_wishlist_action"/>
             <menuitem id="library_member_menu_action" action="library_member_action"/>
             <menuitem id="library_borrow_record_menu_action" action="library_borrow_record_action"/>
         </menuitem>
