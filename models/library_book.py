@@ -64,4 +64,13 @@ class LibraryBook(models.Model):
         "Total copies must be greater than 0"
     )
 
-    
+    def _compute_is_wishlisted(self):
+        for record in self:
+            record.is_wishlisted = self.env.user in record.wishlisted_by_ids
+
+    def toggle_wishlist(self):
+        for record in self:
+            if self.env.user in record.wishlisted_by_ids:
+                record.wishlisted_by_ids = [(3, self.env.user.id)]
+            else:
+                record.wishlisted_by_ids = [(4, self.env.user.id)]
