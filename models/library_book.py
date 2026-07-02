@@ -17,7 +17,7 @@ class LibraryBook(models.Model):
     state = fields.Selection(
         selection=[
             ('available', 'Available'),
-            ('borrowed', 'Borrowed'),
+            ('not_available', 'Not Available'),
             ('lost', 'Lost'),
             ('damaged', 'Damaged')
         ],
