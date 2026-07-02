@@ -29,7 +29,7 @@
                         <button name="mark_lost" type="object" string="Mark Lost" invisible="state in ('lost','damaged','borrowed')"/>
                         <button name="mark_damaged" type="object" string="Mark Damaged" invisible="state in ('lost','damaged','borrowed')"/>
                         <button name="restore_book" type="object" string="Restore" invisible="state == 'available'"/>
-                        <field name="state" widget="statusbar" statusbar_visible="available,borrowed,lost"/>
+                        <field name="state" widget="statusbar" statusbar_visible="available,not_available,lost"/>
                     </header>
                     <h1>
                         <field name="name"/>
