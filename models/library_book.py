@@ -10,6 +10,7 @@ class LibraryBook(models.Model):
     isbn = fields.Char(string="ISBN")
     publication_year = fields.Date(string="Publication Date")
     description = fields.Text(string="Description")
+    date_availability = fields.Date(string="Availability Date")
     total_copies = fields.Integer(string="Total Copies", default=1)
     available_copies = fields.Integer(string="Available Copies", compute="_compute_available_copies", store=True)
     category_id = fields.Many2one("library.category", string="Category")
@@ -26,7 +27,7 @@ class LibraryBook(models.Model):
     )
     tag_ids = fields.Many2many("library.book.tag", string="Tags")
     librarian_id = fields.Many2one("res.users", string="Librarian", default=lambda self: self.env.user)
-
+    
     @api.depends("total_copies", "borrow_record_ids.state")
     def _compute_available_copies(self):
         for record in self:
@@ -60,3 +61,5 @@ class LibraryBook(models.Model):
         "CHECK(total_copies > 0)",
         "Total copies must be greater than 0"
     )
+
+    

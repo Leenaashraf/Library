@@ -40,6 +40,7 @@
                         <field name="author"/>
                         <field name="isbn"/>
                         <field name="publication_year"/>
+                        <field name ="date_availability"/>
                     </group>
                     <notebook>
                         <page string="Details">
