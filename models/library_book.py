@@ -28,7 +28,6 @@ class LibraryBook(models.Model):
     librarian_id = fields.Many2one("res.users", string="Librarian", default=lambda self: self.env.user)
 
     @api.depends("total_copies", "borrow_record_ids.state")
-    
     def _compute_available_copies(self):
         for record in self:
             active_borrows = self.env["library.borrow.record"].search_count([
@@ -37,19 +36,19 @@ class LibraryBook(models.Model):
             ])
             record.available_copies = record.total_copies - active_borrows
             if record.available_copies <= 0:
-                record.state = 'borrowed'
-            elif record.state == 'borrowed':
+                record.state = 'not_available'
+            elif record.state == 'not_available':
                 record.state = 'available'
 
     def mark_lost(self):
         for record in self:
-            if record.state == 'borrowed':
+            if record.state == 'not_available':
                 raise UserError("Cannot mark as lost while book is borrowed")
             record.state = 'lost'
 
     def mark_damaged(self):
         for record in self:
-            if record.state == 'borrowed':
+            if record.state == 'not_available':
                 raise UserError("Cannot mark as damaged while book is borrowed")
             record.state = 'damaged'
 
