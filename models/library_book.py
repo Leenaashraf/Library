@@ -27,6 +27,8 @@ class LibraryBook(models.Model):
     )
     tag_ids = fields.Many2many("library.book.tag", string="Tags")
     librarian_id = fields.Many2one("res.users", string="Librarian", default=lambda self: self.env.user)
+    wishlisted_by_ids = fields.Many2many("res.users", "library_book_wishlist_rel", "book_id", "user_id", string="Wishlisted By")
+    is_wishlisted = fields.Boolean(string="In My Wishlist", compute="_compute_is_wishlisted")
     
     @api.depends("total_copies", "borrow_record_ids.state")
     def _compute_available_copies(self):
