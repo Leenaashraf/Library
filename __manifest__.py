@@ -10,7 +10,8 @@
         'views/library_category_views.xml',
         'views/library_book_tag_views.xml',
         'views/res_users_views.xml',
-        'views/library_menus.xml',
+        'views/library_author_views.xml',
+        'views/library_menus.xml'
     ],
     'installable': True,
     'application': True,
