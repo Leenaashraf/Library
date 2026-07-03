@@ -4,3 +4,4 @@ from . import library_borrow_records
 from . import library_category
 from . import res_users
 from . import library_book_tags
+from . import library_author

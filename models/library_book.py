@@ -6,11 +6,10 @@ class LibraryBook(models.Model):
     _description = 'Library Books'
 
     name = fields.Char(string="Title", required=True)
-    author = fields.Char(string="Author", required=True)
+    author_id = fields.Many2one("library.author",string="Author", required=True)
     isbn = fields.Char(string="ISBN")
     publication_year = fields.Date(string="Publication Date")
     description = fields.Text(string="Description")
-    date_availability = fields.Date(string="Availability Date")
     total_copies = fields.Integer(string="Total Copies", default=1)
     available_copies = fields.Integer(string="Available Copies", compute="_compute_available_copies", store=True)
     category_id = fields.Many2one("library.category", string="Category")
@@ -18,7 +17,7 @@ class LibraryBook(models.Model):
     state = fields.Selection(
         selection=[
             ('available', 'Available'),
-            ('not_available', 'Not Available'),
+            ('borrowed', 'Borrowed'),
             ('lost', 'Lost'),
             ('damaged', 'Damaged')
         ],
@@ -27,10 +26,9 @@ class LibraryBook(models.Model):
     )
     tag_ids = fields.Many2many("library.book.tag", string="Tags")
     librarian_id = fields.Many2one("res.users", string="Librarian", default=lambda self: self.env.user)
-    wishlisted_by_ids = fields.Many2many("res.users", "library_book_wishlist_rel", "book_id", "user_id", string="Wishlisted By")
-    is_wishlisted = fields.Boolean(string="In My Wishlist", compute="_compute_is_wishlisted")
-    
+
     @api.depends("total_copies", "borrow_record_ids.state")
+    
     def _compute_available_copies(self):
         for record in self:
             active_borrows = self.env["library.borrow.record"].search_count([
@@ -39,19 +37,19 @@ class LibraryBook(models.Model):
             ])
             record.available_copies = record.total_copies - active_borrows
             if record.available_copies <= 0:
-                record.state = 'not_available'
-            elif record.state == 'not_available':
+                record.state = 'borrowed'
+            elif record.state == 'borrowed':
                 record.state = 'available'
 
     def mark_lost(self):
         for record in self:
-            if record.state == 'not_available':
+            if record.state == 'borrowed':
                 raise UserError("Cannot mark as lost while book is borrowed")
             record.state = 'lost'
 
     def mark_damaged(self):
         for record in self:
-            if record.state == 'not_available':
+            if record.state == 'borrowed':
                 raise UserError("Cannot mark as damaged while book is borrowed")
             record.state = 'damaged'
 
@@ -63,7 +61,6 @@ class LibraryBook(models.Model):
         "CHECK(total_copies > 0)",
         "Total copies must be greater than 0"
     )
-
     def _compute_is_wishlisted(self):
         for record in self:
             record.is_wishlisted = self.env.user in record.wishlisted_by_ids
