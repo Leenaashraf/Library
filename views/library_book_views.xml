@@ -11,7 +11,7 @@
         <field name="arch" type="xml">
             <list>
                 <field name="name"/>
-                <field name="author"/>
+                <field name="author_id"/>
                 <field name="isbn"/>
                 <field name="available_copies"/>
                 <field name="state"/>
@@ -29,9 +29,7 @@
                         <button name="mark_lost" type="object" string="Mark Lost" invisible="state in ('lost','damaged','borrowed')"/>
                         <button name="mark_damaged" type="object" string="Mark Damaged" invisible="state in ('lost','damaged','borrowed')"/>
                         <button name="restore_book" type="object" string="Restore" invisible="state == 'available'"/>
-                        <button name="toggle_wishlist" type="object" string="Add to Wishlist" invisible="is_wishlisted"/>
-                        <button name="toggle_wishlist" type="object" string="Remove from Wishlist" invisible="not is_wishlisted"/>
-                        <field name="state" widget="statusbar" statusbar_visible="available,not_available,lost"/>
+                        <field name="state" widget="statusbar" statusbar_visible="available,borrowed,lost"/>
                     </header>
                     <h1>
                         <field name="name"/>
@@ -39,10 +37,9 @@
                     <group>
                         <field name="tag_ids" widget="many2many_tags"/>
                         <field name="category_id"/>
-                        <field name="author"/>
+                        <field name="author_id"/>
                         <field name="isbn"/>
                         <field name="publication_year"/>
-                        <field name ="date_availability"/>
                     </group>
                     <notebook>
                         <page string="Details">
@@ -71,7 +68,7 @@
                 <templates>
                     <t t-name="card">
                         <field name="name"/>
-                        <field name="author"/>
+                        <field name="author_id"/>
                         <field name="tag_ids" widget="many2many_tags"/>
                         <div>
                             <span>Available: </span>
